@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, Main!</string>
+    <string name="app_name">Samsung Contest</string>
+    <string name="rules">Pravidla soutěže:\n
+    	1. Na papíru před sebou vidíte předlohu textu, který je potřeba přepsat do tabletu Galaxy Tab\n
+    	2. Vyhrává ten kdo to zvládne v co nejkratším čase</string>
+	<string name="start_attemp">Začít soutěžní pokus</string>
+</resources>
