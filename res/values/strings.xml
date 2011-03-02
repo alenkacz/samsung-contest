@@ -6,4 +6,12 @@
     	1. Na papíru před sebou vidíte předlohu textu, který je potřeba přepsat do tabletu Galaxy Tab\n
     	2. Vyhrává ten kdo to zvládne v co nejkratším čase</string>
 	<string name="start_attemp">Začít soutěžní pokus</string>
+	<string name="end_attemp">Ukončit pokus</string>
+	<string name="send_attemp">Odeslat pokus</string>
+	<string name="send_form">Odeslat formulář</string>
+	<string name="try_again">Začít znovu</string>
+	<string name="counter">00:00</string>
+	<string name="name">Jméno:</string>
+	<string name="email">Email:</string>
+	<string name="tel">Telefon:</string>
 </resources>

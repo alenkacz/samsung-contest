@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
-</LinearLayout>
+	<TextView  
+		android:id="@+id/tv_sent_text"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    />
+	    
+	<Button android:id="@+id/btn_send_attemp"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:layout_below="@id/tv_sent_text"
+			android:lines="1"
+			android:text="@string/send_attemp" />
+			
+	<Button android:id="@+id/btn_try_again"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:layout_below="@id/tv_sent_text"
+			android:layout_toRightOf="@id/btn_send_attemp"
+			android:lines="1"
+			android:text="@string/try_again" />
+</RelativeLayout>

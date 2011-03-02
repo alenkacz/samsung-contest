@@ -11,6 +11,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity android:name=".activity.Contest"
+                  android:label="@string/app_name"
+                  android:windowSoftInputMode="stateAlwaysVisible">
+        </activity>
+        
+        <activity android:name=".activity.Form"
+                  android:label="@string/app_name">
+        </activity>
+        
+        <activity android:name=".activity.SendOrReset"
+                  android:label="@string/app_name">
+        </activity>
+        
+        <activity android:name=".activity.Thanks"
+                  android:label="@string/app_name">
+        </activity>
 
     </application>
     <uses-sdk android:minSdkVersion="7" />
