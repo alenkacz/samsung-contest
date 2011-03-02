@@ -14,6 +14,7 @@ public class SendOrReset extends Activity {
 	TextView tv_sent_text = null;
 	Button btn_try_again = null;
 	Button btn_send_attemp = null;
+	String _text = null;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class SendOrReset extends Activity {
         tv_sent_text.setText("Vyplnili jste tento text:\n" + getIntent().getStringExtra("content"));
         btn_send_attemp = (Button) findViewById(R.id.btn_send_attemp);
         btn_try_again = (Button) findViewById(R.id.btn_try_again);
+        _text = getIntent().getStringExtra("content");
         
         setupOnclickHandlers();
 	}
@@ -33,6 +35,7 @@ public class SendOrReset extends Activity {
             @Override
             public void onClick(View v) { 
             	Intent myIntent = new Intent(SendOrReset.this, Contest.class);
+            	myIntent.putExtra("content", _text);
             	startActivity(myIntent);
             }
         });
