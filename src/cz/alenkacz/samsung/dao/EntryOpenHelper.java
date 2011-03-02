@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class EntryDatabaseHelper extends SQLiteOpenHelper {
+public class EntryOpenHelper extends SQLiteOpenHelper {
 	
 	private static final int DATABASE_VERSION = 2;
 	private static final String DATABASE_NAME = "Samsung";
@@ -16,6 +16,9 @@ public class EntryDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATETIME_FIELD = "datetime";
     private static final String TEXT_FIELD = "name";
     
+    private SQLiteDatabase _database;
+    private Context _context;
+    
     private static final String ENTRY_TABLE_CREATE =
                 "CREATE TABLE " + ENTRY_TABLE_NAME + " (" +
                 NAME_FIELD + " TEXT, " +
@@ -24,13 +27,15 @@ public class EntryDatabaseHelper extends SQLiteOpenHelper {
                 DATETIME_FIELD + " TEXT, " +
                 TEXT_FIELD + " TEXT);";
 
-    EntryDatabaseHelper(Context context) {
+    EntryOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        _context = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(ENTRY_TABLE_CREATE);
+        _database = db;
     }
 
 	@Override
