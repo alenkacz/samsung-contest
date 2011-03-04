@@ -84,6 +84,9 @@ public class XMLSerializer {
 	        serializer.startTag("", "datetime");
 	        serializer.text(a.get_datetime());
 	        serializer.endTag("", "datetime");
+	        serializer.startTag("", "length");
+	        serializer.text(a.get_length());
+	        serializer.endTag("", "length");
 	        serializer.startTag("", "text");
 	        serializer.text(a.get_text());
 	        serializer.endTag("", "text");

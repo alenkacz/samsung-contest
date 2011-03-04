@@ -41,24 +41,30 @@ public class Contest extends Activity {
             	
             	Intent myIntent = new Intent(Contest.this, SendOrReset.class);
             	myIntent.putExtra("content", et_contest_content.getText().toString());
+            	myIntent.putExtra("time", getElapsedTimeAsString());
             	startActivity(myIntent);
             }
         });
 	}
 	
+	private String getElapsedTimeAsString() {
+		final long start = _startTime;
+		long millis = System.currentTimeMillis() - start;
+		int seconds = (int) (millis / 1000);
+		int minutes = seconds / 60;
+		seconds     = seconds % 60;
+		
+		if (seconds < 10) {
+	    	  return "" + minutes + ":0" + seconds;
+	       } else {
+	    	  return "" + minutes + ":" + seconds;            
+	       }
+	}
+	
 	private Runnable _updateTimeTask = new Runnable() {
  	   public void run() {
- 	       final long start = _startTime;
- 	       long millis = System.currentTimeMillis() - start;
- 	       int seconds = (int) (millis / 1000);
- 	       int minutes = seconds / 60;
- 	       seconds     = seconds % 60;
-
- 	       if (seconds < 10) {
- 	    	  tv_counter.setText("" + minutes + ":0" + seconds);
- 	       } else {
- 	    	  tv_counter.setText("" + minutes + ":" + seconds);            
- 	       }
+ 	       
+    	  tv_counter.setText(getElapsedTimeAsString());
  	     
  	      _handler.postDelayed(this, 100);
  	   }

@@ -7,20 +7,22 @@ public class Attemp {
 	private String _email;
 	private String _tel;
 	private String _datetime;
+	private String _length;
 	private String _text;
 	
-	public Attemp(String _name, String _email, String _tel, String _datetime,
+	public Attemp(String _name, String _email, String _tel, String _datetime, String _length,
 			String _text) {
 		super();
 		this._name = _name;
 		this._email = _email;
 		this._tel = _tel;
 		this._datetime = _datetime;
+		this._length = _length;
 		this._text = _text;
 		_id = null;
 	}
 	
-	public Attemp(String _name, String _email, String _tel, String _datetime,
+	public Attemp(String _name, String _email, String _tel, String _datetime, String _length,
 			String _text,String id) {
 		super();
 		this._name = _name;
@@ -28,11 +30,16 @@ public class Attemp {
 		this._tel = _tel;
 		this._datetime = _datetime;
 		this._text = _text;
+		this._length = _length;
 		this._id = id;
 	}
 	
 	public String get_id() {
 		return _id;
+	}
+	
+	public String get_length() {
+		return _length;
 	}
 	
 	public String get_name() {

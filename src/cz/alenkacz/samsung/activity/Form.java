@@ -36,7 +36,9 @@ public class Form extends Activity {
 	EditText et_email = null;
 	EditText et_tel = null;
 	TextView tv_form_error = null;
+	
 	String _text = null;
+	String _time = null;
 	
 	EntryDatabase _db;
 	long _id;
@@ -53,6 +55,7 @@ public class Form extends Activity {
         tv_form_error = (TextView) findViewById(R.id.tv_form_error);
         
         _text = getIntent().getStringExtra("content");
+        _time = getIntent().getStringExtra("time");
         
         setupOnclickListeners();
 	}
@@ -99,7 +102,7 @@ public class Form extends Activity {
 		_db = new EntryDatabase(this);
 		_db.open();
 		Cursor cur = _db.getAllEntries();
-		String id,name,email,tel,datetime,text = "";
+		String id,name,email,tel,datetime,length,text = "";
 		List<Attemp> attemps = new ArrayList<Attemp>();
 		
 		cur.moveToFirst();
@@ -110,8 +113,9 @@ public class Form extends Activity {
         	tel = cur.getString(EntryDatabase.TEL_FIELD_NUM);
         	datetime = cur.getString(EntryDatabase.DATETIME_FIELD_NUM);
         	text = cur.getString(EntryDatabase.TEXT_FIELD_NUM);
+        	length = cur.getString(EntryDatabase.LENGTH_FIELD_NUM);
         	
-        	attemps.add(new Attemp(name, email, tel, datetime, text));
+        	attemps.add(new Attemp(name, email, tel, datetime, length, text, id));
         	
        	    cur.moveToNext();
         }
@@ -138,7 +142,7 @@ public class Form extends Activity {
 			throw new EmailFormatException();
 		} 
 		
-		return new Attemp(name, email,tel, getDateAsString(), _text);
+		return new Attemp(name, email,tel, getDateAsString(), _time, _text);
 	}
 	
 	private boolean isEverythingFilled(String name, String email, String tel) {

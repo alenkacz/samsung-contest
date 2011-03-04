@@ -28,6 +28,8 @@ public class EntryDatabase {
     public static final int DATETIME_FIELD_NUM = 4;
     public static final String TEXT_FIELD = "text";
     public static final int TEXT_FIELD_NUM = 5;
+    public static final String LENGTH_FIELD = "length";
+    public static final int LENGTH_FIELD_NUM = 6;
 	
 	private SQLiteDatabase _db;
 	private final Context _context;
@@ -57,12 +59,13 @@ public class EntryDatabase {
 		contentValues.put(TEL_FIELD, attemp.get_tel());
 		contentValues.put(DATETIME_FIELD, attemp.get_datetime());
 		contentValues.put(TEXT_FIELD, attemp.get_text());
+		contentValues.put(LENGTH_FIELD, attemp.get_length());
 		
 		return _db.insert(ENTRY_TABLE_NAME, null, contentValues);
 	}
 	
 	public Cursor getAllEntries() {
-		return _db.query(ENTRY_TABLE_NAME, new String[] {ID_FIELD,NAME_FIELD,EMAIL_FIELD,TEL_FIELD,DATETIME_FIELD,TEXT_FIELD}, 
+		return _db.query(ENTRY_TABLE_NAME, new String[] {ID_FIELD,NAME_FIELD,EMAIL_FIELD,TEL_FIELD,DATETIME_FIELD,TEXT_FIELD, LENGTH_FIELD}, 
 				null, null, null, null, null);
 	}
 }
@@ -78,7 +81,8 @@ class EntryOpenHelper extends SQLiteOpenHelper {
         EntryDatabase.EMAIL_FIELD + " text not null, " +
         EntryDatabase.TEL_FIELD + " text not null, " +
         EntryDatabase.DATETIME_FIELD + " text not null, " +
-        EntryDatabase.TEXT_FIELD + " text not null);";
+        EntryDatabase.TEXT_FIELD + " text not null, " +
+        EntryDatabase.LENGTH_FIELD + " text not null);";
 
     EntryOpenHelper(Context context, String name, CursorFactory factory, int version) {
         super(context, name, factory, version);
