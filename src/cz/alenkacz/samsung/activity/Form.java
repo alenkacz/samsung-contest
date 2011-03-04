@@ -6,6 +6,7 @@ import java.util.Date;
 
 import cz.alenkacz.samsung.R;
 import cz.alenkacz.samsung.component.XMLSerializer;
+import cz.alenkacz.samsung.dao.EntryDatabase;
 import cz.alenkacz.samsung.model.Attemp;
 import android.app.Activity;
 import android.content.Intent;
@@ -24,6 +25,9 @@ public class Form extends Activity {
 	EditText et_tel = null;
 	String _text = null;
 	
+	EntryDatabase _db;
+	long _id;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,13 @@ public class Form extends Activity {
         _text = getIntent().getStringExtra("content");
         
         setupOnclickListeners();
+        saveToDb();
+	}
+
+	private void saveToDb() {
+		_db = new EntryDatabase(this);
+		_db.open();
+		_id = _db.inserEntry(getInsertedData());
 	}
 
 	private void setupOnclickListeners() {
@@ -50,17 +61,6 @@ public class Form extends Activity {
             	
             	redirectToThanks(res);
             }
-            
-            private Attemp getInsertedData() {
-				return new Attemp(et_name.getText().toString(), et_email.getText().toString(),
-						et_tel.getText().toString(), getDateAsString(), _text);
-			}
-            
-            private String getDateAsString() {
-                Date today = Calendar.getInstance().getTime();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh.mm");
-                return formatter.format(today);
-            }
 
 			private void redirectToThanks( boolean success ) {
         		Intent myIntent = new Intent(Form.this, Thanks.class);
@@ -69,4 +69,15 @@ public class Form extends Activity {
         	}
         });
 	}
+	
+	private Attemp getInsertedData() {
+		return new Attemp(et_name.getText().toString(), et_email.getText().toString(),
+				et_tel.getText().toString(), getDateAsString(), _text);
+	}
+	
+	private String getDateAsString() {
+        Date today = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh.mm");
+        return formatter.format(today);
+    }
 }
