@@ -2,9 +2,8 @@
 <resources>
     <string name="hello">Hello World, Main!</string>
     <string name="app_name">Samsung Contest</string>
-    <string name="rules">Pravidla soutěže:\n
-    	1. Na papíru před sebou vidíte předlohu textu, který je potřeba přepsat do tabletu Galaxy Tab\n
-    	2. Vyhrává ten kdo to zvládne v co nejkratším čase</string>
+    <string name="rules">Opište nejrychleji a správně soutěžní text a vyhrajte hodnotné ceny od společnosti Samsung. Více informací získáte na webové adresa <a href="http://www.urladresa.cz/">www.urladresa.cz/</a></string>
+	<string name="rules_agreed">Účastí v soutěži souhlasíte s podmínkami soutěže, které jsou umístěny na <a href="http://www.urladresa.cz/pravidla/">www.urladresa.cz/pravidla/</a>.</string>
 	<string name="start_attemp">Začít soutěžní pokus</string>
 	<string name="end_attemp">Ukončit pokus</string>
 	<string name="send_attemp">Odeslat pokus</string>

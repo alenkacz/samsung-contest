@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:padding="5dip"
     >
     
 	<TextView  
@@ -10,12 +11,27 @@
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
 	    android:text="@string/rules"
+	    android:gravity="center" 
+	    android:layout_marginTop="20dip"
 	    />
     
     <Button android:id="@+id/btn_start"
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content"
+		android:layout_marginTop="5dip"
+		android:layout_marginBottom="5dip"
+		android:layout_centerHorizontal="true"
+		android:layout_below="@id/tv_rules"
 		android:lines="1"
 		android:text="@string/start_attemp" />
 		
-</LinearLayout>
+	<TextView  
+		android:id="@+id/tv_rules_agreed"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/btn_start"
+	    android:gravity="center" 
+	    android:text="@string/rules_agreed"
+	    />
+		
+</RelativeLayout>

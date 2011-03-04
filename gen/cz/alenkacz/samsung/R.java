@@ -15,10 +15,10 @@ public final class R {
     }
     public static final class id {
         public static final int btn_end_attemp=0x7f050002;
-        public static final int btn_send_attemp=0x7f05000e;
+        public static final int btn_send_attemp=0x7f05000f;
         public static final int btn_send_form=0x7f05000a;
         public static final int btn_start=0x7f05000c;
-        public static final int btn_try_again=0x7f05000f;
+        public static final int btn_try_again=0x7f050010;
         public static final int et_contest_content=0x7f050001;
         public static final int et_email=0x7f050007;
         public static final int et_name=0x7f050005;
@@ -28,7 +28,8 @@ public final class R {
         public static final int tv_form_error=0x7f050003;
         public static final int tv_name=0x7f050004;
         public static final int tv_rules=0x7f05000b;
-        public static final int tv_sent_text=0x7f05000d;
+        public static final int tv_rules_agreed=0x7f05000d;
+        public static final int tv_sent_text=0x7f05000e;
         public static final int tv_tel=0x7f050008;
     }
     public static final class layout {
@@ -40,16 +41,17 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040001;
-        public static final int counter=0x7f040008;
-        public static final int email=0x7f04000a;
-        public static final int end_attemp=0x7f040004;
+        public static final int counter=0x7f040009;
+        public static final int email=0x7f04000b;
+        public static final int end_attemp=0x7f040005;
         public static final int hello=0x7f040000;
-        public static final int name=0x7f040009;
+        public static final int name=0x7f04000a;
         public static final int rules=0x7f040002;
-        public static final int send_attemp=0x7f040005;
-        public static final int send_form=0x7f040006;
-        public static final int start_attemp=0x7f040003;
-        public static final int tel=0x7f04000b;
-        public static final int try_again=0x7f040007;
+        public static final int rules_agreed=0x7f040003;
+        public static final int send_attemp=0x7f040006;
+        public static final int send_form=0x7f040007;
+        public static final int start_attemp=0x7f040004;
+        public static final int tel=0x7f04000c;
+        public static final int try_again=0x7f040008;
     }
 }

@@ -17,9 +17,13 @@ import cz.alenkacz.samsung.exception.EmailFormatException;
 import cz.alenkacz.samsung.exception.FormNotFilledException;
 import cz.alenkacz.samsung.model.Attemp;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -40,8 +44,7 @@ public class Form extends Activity {
 	String _text = null;
 	String _time = null;
 	
-	EntryDatabase _db;
-	long _id;
+	ProgressDialog _dialog;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,68 +67,20 @@ public class Form extends Activity {
 		btn_send_form.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) { 
-            	boolean res = false;
             	
-            	XMLSerializer serializer = new XMLSerializer(getApplicationContext());
             	try {
-            		String xml = serializer.serialize(getInsertedData());
-            		HttpSender sender = new HttpSender();
-                	boolean sent = sender.sendAttemp(xml);
-                	
-                	saveToDb();
-                	saveXmlFile();
-                	
-                	redirectToThanks(res);
+            		_dialog = ProgressDialog.show(Form.this, "", "Odesílám a ukládám data. Prosím čekejte...", true);
+	            	SaveThread thread = new SaveThread(getInsertedData(),getApplicationContext(),_dialog);
+	            	thread.start();
             	} catch( EmailFormatException e ) {
+            		_dialog.dismiss();
             		tv_form_error.setText(EMAIL_ERROR);
             	} catch( FormNotFilledException e ) {
+            		_dialog.dismiss();
             		tv_form_error.setText(FORM_NOT_FILLED_ERROR);
             	}
             }
-
-			private void redirectToThanks( boolean success ) {
-        		Intent myIntent = new Intent(Form.this, Thanks.class);
-            	myIntent.putExtra("success", success);
-            	startActivity(myIntent);
-        	}
         });
-	}
-	
-	private void saveToDb() throws EmailFormatException, FormNotFilledException {
-		_db = new EntryDatabase(this);
-		_db.open();
-		_id = _db.inserEntry(getInsertedData());
-		_db.close();
-	}
-	
-	private void saveXmlFile() {
-		_db = new EntryDatabase(this);
-		_db.open();
-		Cursor cur = _db.getAllEntries();
-		String id,name,email,tel,datetime,length,text = "";
-		List<Attemp> attemps = new ArrayList<Attemp>();
-		
-		cur.moveToFirst();
-        while (cur.isAfterLast() == false) {
-        	id = cur.getString(EntryDatabase.ID_FIELD_NUM);
-        	name = cur.getString(EntryDatabase.NAME_FIELD_NUM);
-        	email = cur.getString(EntryDatabase.EMAIL_FIELD_NUM);
-        	tel = cur.getString(EntryDatabase.TEL_FIELD_NUM);
-        	datetime = cur.getString(EntryDatabase.DATETIME_FIELD_NUM);
-        	text = cur.getString(EntryDatabase.TEXT_FIELD_NUM);
-        	length = cur.getString(EntryDatabase.LENGTH_FIELD_NUM);
-        	
-        	attemps.add(new Attemp(name, email, tel, datetime, length, text, id));
-        	
-       	    cur.moveToNext();
-        }
-        cur.close();
-		
-		_db.close();
-		
-		FileExporter exporter = new FileExporter();
-		XMLSerializer serializer = new XMLSerializer(getApplicationContext());
-		exporter.saveFile(serializer.serialize(attemps));
 	}
 	
 	private Attemp getInsertedData() throws EmailFormatException, FormNotFilledException {
@@ -165,3 +120,88 @@ public class Form extends Activity {
 		return m.matches();
 	}
 }
+
+class SaveThread extends Thread {
+	
+	Attemp a = null;
+	Context c = null;
+	
+	EntryDatabase _db;
+	long _id;
+	ProgressDialog _dialog;
+	
+	public SaveThread( Attemp a, Context c, ProgressDialog dialog ) {
+		this.a = a;
+		this.c = c;
+		_dialog = dialog;
+	}
+	
+	@Override
+    public void run() {  
+		XMLSerializer serializer = new XMLSerializer(c);
+		String xml = serializer.serialize(a);
+		HttpSender sender = new HttpSender();
+    	boolean sent = sender.sendAttemp(xml);
+    	
+    	saveToDb();
+    	saveXmlFile();
+
+        handler.sendEmptyMessage(0);
+    }
+
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            _dialog.dismiss();
+            redirectToThanks(true);
+        }
+    };
+    
+    private void redirectToThanks( boolean success ) {
+		_dialog.dismiss();
+		
+		Intent myIntent = new Intent(c, Thanks.class);
+    	myIntent.putExtra("success", success);
+    	myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    	c.startActivity(myIntent);
+	}
+    
+    private void saveToDb() {
+		_db = new EntryDatabase(c);
+		_db.open();
+		_id = _db.inserEntry(a);
+		_db.close();
+	}
+	
+	private void saveXmlFile() {
+		_db = new EntryDatabase(c);
+		_db.open();
+		Cursor cur = _db.getAllEntries();
+		String id,name,email,tel,datetime,length,text = "";
+		List<Attemp> attemps = new ArrayList<Attemp>();
+		
+		cur.moveToFirst();
+        while (cur.isAfterLast() == false) {
+        	id = cur.getString(EntryDatabase.ID_FIELD_NUM);
+        	name = cur.getString(EntryDatabase.NAME_FIELD_NUM);
+        	email = cur.getString(EntryDatabase.EMAIL_FIELD_NUM);
+        	tel = cur.getString(EntryDatabase.TEL_FIELD_NUM);
+        	datetime = cur.getString(EntryDatabase.DATETIME_FIELD_NUM);
+        	text = cur.getString(EntryDatabase.TEXT_FIELD_NUM);
+        	length = cur.getString(EntryDatabase.LENGTH_FIELD_NUM);
+        	
+        	attemps.add(new Attemp(name, email, tel, datetime, length, text, id));
+        	
+       	    cur.moveToNext();
+        }
+        cur.close();
+		
+		_db.close();
+		
+		FileExporter exporter = new FileExporter();
+		XMLSerializer serializer = new XMLSerializer(c);
+		exporter.saveFile(serializer.serialize(attemps));
+	}
+}
+

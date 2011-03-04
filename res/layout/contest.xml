@@ -6,26 +6,28 @@
     
     <TextView  
 		android:id="@+id/tv_counter"
-	    android:layout_width="fill_parent" 
+	    android:layout_width="wrap_content" 
 	    android:layout_height="wrap_content"
 	    android:textColor="#cd5c5c"
-	    android:textSize="30px" 
+	    android:layout_centerHorizontal="true"
+	    android:layout_marginBottom="10px"
+	    android:textSize="40px" 
 	    android:text="@string/counter"
 	    />
     
 	<EditText android:id="@+id/et_contest_content" 
-		android:layout_width="200dip"
+		android:layout_width="fill_parent"
 		android:layout_marginRight="10px"
 		android:layout_below="@id/tv_counter"
-		android:lines="5"
+		android:lines="10"
 		android:longClickable="false"
 		android:layout_height="wrap_content" />
 		
 	<Button android:id="@+id/btn_end_attemp"
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content"
-			android:layout_below="@id/tv_counter"
-			android:layout_toRightOf="@id/et_contest_content"
+			android:layout_below="@id/et_contest_content"
+			android:layout_centerHorizontal="true"
 			android:lines="1"
 			android:text="@string/end_attemp" />
 </RelativeLayout>
