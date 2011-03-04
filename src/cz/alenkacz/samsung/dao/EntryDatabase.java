@@ -63,6 +63,8 @@ public class EntryDatabase {
 
 class EntryOpenHelper extends SQLiteOpenHelper {
 	
+	SQLiteDatabase _db;
+	
 	private static final String ENTRY_TABLE_CREATE =
         "CREATE TABLE " + EntryDatabase.ENTRY_TABLE_NAME + " (" +
         EntryDatabase.ID_FIELD + " integer primary key autoincrement, " +
@@ -79,10 +81,12 @@ class EntryOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(ENTRY_TABLE_CREATE);
+        _db = db;
     }
 
 	@Override
 	public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
-		// TODO Auto-generated method stub
+		_db.execSQL("DROP TABLE IF EXISTS " + EntryDatabase.ENTRY_TABLE_NAME);
+		onCreate(_db);
 	}
 }

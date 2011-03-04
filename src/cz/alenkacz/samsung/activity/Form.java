@@ -3,10 +3,15 @@ package cz.alenkacz.samsung.activity;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cz.alenkacz.samsung.R;
+import cz.alenkacz.samsung.component.HttpSender;
 import cz.alenkacz.samsung.component.XMLSerializer;
 import cz.alenkacz.samsung.dao.EntryDatabase;
+import cz.alenkacz.samsung.exception.EmailFormatException;
+import cz.alenkacz.samsung.exception.FormNotFilledException;
 import cz.alenkacz.samsung.model.Attemp;
 import android.app.Activity;
 import android.content.Intent;
@@ -19,10 +24,14 @@ import android.widget.TextView;
 
 public class Form extends Activity {
 	
+	private final String EMAIL_ERROR = "Formát zadaného emailu není správný";
+	private final String FORM_NOT_FILLED_ERROR = "Nevyplnili jste všechny položky formuláře";
+	
 	Button btn_send_form = null;
 	EditText et_name = null;
 	EditText et_email = null;
 	EditText et_tel = null;
+	TextView tv_form_error = null;
 	String _text = null;
 	
 	EntryDatabase _db;
@@ -37,17 +46,11 @@ public class Form extends Activity {
         et_name = (EditText) findViewById(R.id.et_name);
         et_email = (EditText) findViewById(R.id.et_email);
         et_tel = (EditText) findViewById(R.id.et_tel);
+        tv_form_error = (TextView) findViewById(R.id.tv_form_error);
         
         _text = getIntent().getStringExtra("content");
         
         setupOnclickListeners();
-        saveToDb();
-	}
-
-	private void saveToDb() {
-		_db = new EntryDatabase(this);
-		_db.open();
-		_id = _db.inserEntry(getInsertedData());
 	}
 
 	private void setupOnclickListeners() {
@@ -57,9 +60,19 @@ public class Form extends Activity {
             	boolean res = false;
             	
             	XMLSerializer serializer = new XMLSerializer(getApplicationContext());
-            	serializer.serialize(getInsertedData());
-            	
-            	redirectToThanks(res);
+            	try {
+            		String xml = serializer.serialize(getInsertedData());
+            		HttpSender sender = new HttpSender();
+                	boolean sent = sender.sendAttemp(xml);
+                	
+                	saveToDb();
+                	
+                	redirectToThanks(res);
+            	} catch( EmailFormatException e ) {
+            		tv_form_error.setText(EMAIL_ERROR);
+            	} catch( FormNotFilledException e ) {
+            		tv_form_error.setText(FORM_NOT_FILLED_ERROR);
+            	}
             }
 
 			private void redirectToThanks( boolean success ) {
@@ -70,14 +83,46 @@ public class Form extends Activity {
         });
 	}
 	
-	private Attemp getInsertedData() {
-		return new Attemp(et_name.getText().toString(), et_email.getText().toString(),
-				et_tel.getText().toString(), getDateAsString(), _text);
+	private void saveToDb() {
+		_db = new EntryDatabase(this);
+		_db.open();
+		_id = _db.inserEntry(getInsertedData());
 	}
 	
+	private Attemp getInsertedData() throws EmailFormatException, FormNotFilledException {
+		
+		String name = et_name.getText().toString();
+		String email = et_email.getText().toString();
+		String tel = et_tel.getText().toString();
+		
+		if( !isEverythingFilled(name,email,tel) ) {
+			throw new FormNotFilledException();
+		}
+			
+		if( !validateEmail(et_email.getText().toString()) ) {
+			throw new EmailFormatException();
+		} 
+		
+		return new Attemp(name, email,tel, getDateAsString(), _text);
+	}
+	
+	private boolean isEverythingFilled(String name, String email, String tel) {
+		return isStringNotEmpty(name) && isStringNotEmpty(email) && isStringNotEmpty(tel);
+	}
+	
+	private boolean isStringNotEmpty(String s) {
+		return (s != null || !s.equals(""));
+	}
+
 	private String getDateAsString() {
         Date today = Calendar.getInstance().getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh.mm");
         return formatter.format(today);
     }
+	
+	private boolean validateEmail(String email) {
+		Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
+		Matcher m = p.matcher(email);
+		return m.matches();
+	}
 }
