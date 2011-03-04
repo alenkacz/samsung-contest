@@ -17,17 +17,17 @@ public class EntryDatabase {
     public static final String ENTRY_TABLE_NAME = "attemp";
     
     public static final String ID_FIELD = "id";
-    public static final int ID_FIELD_NUM = 1;
+    public static final int ID_FIELD_NUM = 0;
     public static final String NAME_FIELD = "name";
-    public static final int NAME_FIELD_NUM = 2;
+    public static final int NAME_FIELD_NUM = 1;
     public static final String EMAIL_FIELD = "email";
-    public static final int EMAIL_FIELD_NUM = 3;
+    public static final int EMAIL_FIELD_NUM = 2;
     public static final String TEL_FIELD = "tel";
-    public static final int TEL_FIELD_NUM = 4;
+    public static final int TEL_FIELD_NUM = 3;
     public static final String DATETIME_FIELD = "datetime";
-    public static final int DATETIME_FIELD_NUM = 5;
+    public static final int DATETIME_FIELD_NUM = 4;
     public static final String TEXT_FIELD = "text";
-    public static final int TEXT_FIELD_NUM = 6;
+    public static final int TEXT_FIELD_NUM = 5;
 	
 	private SQLiteDatabase _db;
 	private final Context _context;
@@ -58,11 +58,11 @@ public class EntryDatabase {
 		contentValues.put(DATETIME_FIELD, attemp.get_datetime());
 		contentValues.put(TEXT_FIELD, attemp.get_text());
 		
-		return _db.insert(DATABASE_NAME, null, contentValues);
+		return _db.insert(ENTRY_TABLE_NAME, null, contentValues);
 	}
 	
 	public Cursor getAllEntries() {
-		return _db.query(DATABASE_NAME, new String[] {ID_FIELD,NAME_FIELD,EMAIL_FIELD,TEL_FIELD,DATETIME_FIELD,TEXT_FIELD}, 
+		return _db.query(ENTRY_TABLE_NAME, new String[] {ID_FIELD,NAME_FIELD,EMAIL_FIELD,TEL_FIELD,DATETIME_FIELD,TEXT_FIELD}, 
 				null, null, null, null, null);
 	}
 }

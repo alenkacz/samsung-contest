@@ -1,12 +1,15 @@
 package cz.alenkacz.samsung.activity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cz.alenkacz.samsung.R;
+import cz.alenkacz.samsung.component.FileExporter;
 import cz.alenkacz.samsung.component.HttpSender;
 import cz.alenkacz.samsung.component.XMLSerializer;
 import cz.alenkacz.samsung.dao.EntryDatabase;
@@ -96,16 +99,29 @@ public class Form extends Activity {
 		_db = new EntryDatabase(this);
 		_db.open();
 		Cursor cur = _db.getAllEntries();
-		String id,name,email,datetime,text = "";
+		String id,name,email,tel,datetime,text = "";
+		List<Attemp> attemps = new ArrayList<Attemp>();
 		
 		cur.moveToFirst();
         while (cur.isAfterLast() == false) {
+        	id = cur.getString(EntryDatabase.ID_FIELD_NUM);
+        	name = cur.getString(EntryDatabase.NAME_FIELD_NUM);
+        	email = cur.getString(EntryDatabase.EMAIL_FIELD_NUM);
+        	tel = cur.getString(EntryDatabase.TEL_FIELD_NUM);
+        	datetime = cur.getString(EntryDatabase.DATETIME_FIELD_NUM);
+        	text = cur.getString(EntryDatabase.TEXT_FIELD_NUM);
+        	
+        	attemps.add(new Attemp(name, email, tel, datetime, text));
         	
        	    cur.moveToNext();
         }
         cur.close();
 		
 		_db.close();
+		
+		FileExporter exporter = new FileExporter();
+		XMLSerializer serializer = new XMLSerializer(getApplicationContext());
+		exporter.saveFile(serializer.serialize(attemps));
 	}
 	
 	private Attemp getInsertedData() throws EmailFormatException, FormNotFilledException {

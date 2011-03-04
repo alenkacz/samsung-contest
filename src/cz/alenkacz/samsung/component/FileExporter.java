@@ -17,17 +17,18 @@ public class FileExporter {
 	
 	public FileExporter() {
 		try {
-			if( _externalStorageAvailable && _externalStorageWriteable) {
-				File dir = Environment.getExternalStorageDirectory();
-				_file = new File(dir,FILENAME);
-				_fos = new FileOutputStream(_file);
-			}
-		} catch( IOException e ) {}
+			File dir = Environment.getExternalStorageDirectory();
+			_file = new File(dir,FILENAME);
+			_fos = new FileOutputStream(_file);
+		} catch( IOException e ) {
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean saveFile( String content ) {
 		try {
-			_fos.write(content.getBytes());
+			if(_fos != null)
+				_fos.write(content.getBytes());
 			
 			return true;
 		} catch( IOException e ) {

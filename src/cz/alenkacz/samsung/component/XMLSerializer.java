@@ -40,10 +40,38 @@ public class XMLSerializer {
 	    } 
 	}
 	
+	public String serialize(List<Attemp> list) {
+		XmlSerializer serializer = Xml.newSerializer();
+	    StringWriter writer = new StringWriter();
+	    try {
+	        serializer.setOutput(writer);
+	        serializer.startDocument("UTF-8", true);
+	        serializer.startTag("", "contest");
+	        serializer.attribute("", "imei", _imei.get());
+	        
+	        for( Attemp a : list ) {
+	        	serializer = serializeSingleAttemp(a,serializer);
+	        }
+	        	        
+	        serializer.endTag("", "contest");
+	        serializer.endDocument();
+	        return writer.toString();
+	    } catch (Exception e) {
+	        throw new RuntimeException(e);
+	    } 
+	}
+	
 	private XmlSerializer serializeSingleAttemp(Attemp a, XmlSerializer serializer) {
 		
 		try {
 			serializer.startTag("", "contestant");
+			
+			if( a.get_id() != null ) {
+				serializer.startTag("", "id");
+		        serializer.text(a.get_id());
+		        serializer.endTag("", "id");
+			}
+			
 	        serializer.startTag("", "name");
 	        serializer.text(a.get_name());
 	        serializer.endTag("", "name");
@@ -65,9 +93,5 @@ public class XMLSerializer {
 		}
         
         return serializer;
-	}
-
-	public String serialize(List<Attemp> list) {
-		return "";
 	}
 }
