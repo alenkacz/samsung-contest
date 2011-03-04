@@ -35,7 +35,6 @@ public class SendOrReset extends Activity {
             @Override
             public void onClick(View v) { 
             	Intent myIntent = new Intent(SendOrReset.this, Contest.class);
-            	myIntent.putExtra("content", _text);
             	startActivity(myIntent);
             }
         });
@@ -44,6 +43,7 @@ public class SendOrReset extends Activity {
             @Override
             public void onClick(View v) { 
             	Intent myIntent = new Intent(SendOrReset.this, Form.class);
+            	myIntent.putExtra("content", _text);
             	startActivity(myIntent);
             }
         });

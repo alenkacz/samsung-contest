@@ -15,20 +15,21 @@ public final class R {
     }
     public static final class id {
         public static final int btn_end_attemp=0x7f050002;
-        public static final int btn_send_attemp=0x7f05000d;
-        public static final int btn_send_form=0x7f050009;
-        public static final int btn_start=0x7f05000b;
-        public static final int btn_try_again=0x7f05000e;
+        public static final int btn_send_attemp=0x7f05000e;
+        public static final int btn_send_form=0x7f05000a;
+        public static final int btn_start=0x7f05000c;
+        public static final int btn_try_again=0x7f05000f;
         public static final int et_contest_content=0x7f050001;
-        public static final int et_email=0x7f050006;
-        public static final int et_name=0x7f050004;
-        public static final int et_tel=0x7f050008;
+        public static final int et_email=0x7f050007;
+        public static final int et_name=0x7f050005;
+        public static final int et_tel=0x7f050009;
         public static final int tv_counter=0x7f050000;
-        public static final int tv_email=0x7f050005;
-        public static final int tv_name=0x7f050003;
-        public static final int tv_rules=0x7f05000a;
-        public static final int tv_sent_text=0x7f05000c;
-        public static final int tv_tel=0x7f050007;
+        public static final int tv_email=0x7f050006;
+        public static final int tv_form_error=0x7f050003;
+        public static final int tv_name=0x7f050004;
+        public static final int tv_rules=0x7f05000b;
+        public static final int tv_sent_text=0x7f05000d;
+        public static final int tv_tel=0x7f050008;
     }
     public static final class layout {
         public static final int contest=0x7f030000;

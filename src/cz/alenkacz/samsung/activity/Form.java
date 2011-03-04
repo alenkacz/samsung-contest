@@ -15,6 +15,7 @@ import cz.alenkacz.samsung.exception.FormNotFilledException;
 import cz.alenkacz.samsung.model.Attemp;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,6 +67,7 @@ public class Form extends Activity {
                 	boolean sent = sender.sendAttemp(xml);
                 	
                 	saveToDb();
+                	saveXmlFile();
                 	
                 	redirectToThanks(res);
             	} catch( EmailFormatException e ) {
@@ -83,10 +85,27 @@ public class Form extends Activity {
         });
 	}
 	
-	private void saveToDb() {
+	private void saveToDb() throws EmailFormatException, FormNotFilledException {
 		_db = new EntryDatabase(this);
 		_db.open();
 		_id = _db.inserEntry(getInsertedData());
+		_db.close();
+	}
+	
+	private void saveXmlFile() {
+		_db = new EntryDatabase(this);
+		_db.open();
+		Cursor cur = _db.getAllEntries();
+		String id,name,email,datetime,text = "";
+		
+		cur.moveToFirst();
+        while (cur.isAfterLast() == false) {
+        	
+       	    cur.moveToNext();
+        }
+        cur.close();
+		
+		_db.close();
 	}
 	
 	private Attemp getInsertedData() throws EmailFormatException, FormNotFilledException {
@@ -111,12 +130,12 @@ public class Form extends Activity {
 	}
 	
 	private boolean isStringNotEmpty(String s) {
-		return (s != null || !s.equals(""));
+		return (s != null && !s.equals(""));
 	}
 
 	private String getDateAsString() {
         Date today = Calendar.getInstance().getTime();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh.mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         return formatter.format(today);
     }
 	
