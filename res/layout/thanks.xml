@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:padding="5dip"
     >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
-</LinearLayout>
+	<TextView 
+		android:id="@+id/tv_thanks" 
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:layout_centerHorizontal="true"
+	    />
+	    
+	<Button android:id="@+id/btn_back_start"
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content"
+		android:layout_below="@id/tv_thanks"
+		android:layout_marginTop="20dip"
+		android:layout_centerHorizontal="true"
+		android:lines="1"
+		android:text="@string/back_start" />
+</RelativeLayout>

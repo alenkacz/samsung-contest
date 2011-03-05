@@ -130,6 +130,8 @@ class SaveThread extends Thread {
 	long _id;
 	ProgressDialog _dialog;
 	
+	boolean _sent = false;
+	
 	public SaveThread( Attemp a, Context c, ProgressDialog dialog ) {
 		this.a = a;
 		this.c = c;
@@ -141,7 +143,7 @@ class SaveThread extends Thread {
 		XMLSerializer serializer = new XMLSerializer(c);
 		String xml = serializer.serialize(a);
 		HttpSender sender = new HttpSender();
-    	boolean sent = sender.sendAttemp(xml);
+    	_sent = sender.sendAttemp(xml);
     	
     	saveToDb();
     	saveXmlFile();
@@ -154,7 +156,7 @@ class SaveThread extends Thread {
         @Override
         public void handleMessage(Message msg) {
             _dialog.dismiss();
-            redirectToThanks(true);
+            redirectToThanks(_sent);
         }
     };
     

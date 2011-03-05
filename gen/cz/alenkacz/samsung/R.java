@@ -14,6 +14,7 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
+        public static final int btn_back_start=0x7f050012;
         public static final int btn_end_attemp=0x7f050002;
         public static final int btn_send_attemp=0x7f05000f;
         public static final int btn_send_form=0x7f05000a;
@@ -31,6 +32,7 @@ public final class R {
         public static final int tv_rules_agreed=0x7f05000d;
         public static final int tv_sent_text=0x7f05000e;
         public static final int tv_tel=0x7f050008;
+        public static final int tv_thanks=0x7f050011;
     }
     public static final class layout {
         public static final int contest=0x7f030000;
@@ -41,6 +43,7 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040001;
+        public static final int back_start=0x7f04000d;
         public static final int counter=0x7f040009;
         public static final int email=0x7f04000b;
         public static final int end_attemp=0x7f040005;

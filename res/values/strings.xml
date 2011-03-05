@@ -13,4 +13,5 @@
 	<string name="name">Jméno:</string>
 	<string name="email">Email:</string>
 	<string name="tel">Telefon:</string>
+	<string name="back_start">Zpět na začátek</string>
 </resources>
